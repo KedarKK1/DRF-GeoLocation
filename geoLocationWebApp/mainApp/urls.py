@@ -9,7 +9,7 @@ urlpatterns = [
     path('crud/', views.CenterPointsListViewSet.as_view(), name="center_points-list-create"),
 
     # ^ below api is used for for Creating (1 object), and listing all of object queryset -> used for drf view for creating new point
-    path('crud/create', views.CenterPointsCreateViewSet.as_view(), name="center_points-list-create"),
+    path('crud/create', views.CenterPointsCreateViewSet.as_view(), name="center_points-list-create2"),
 
     # ^ below api is used for update(1 object), retrive(1 object) & delete (1 object) via drf view
     path('crud/<int:pk>/', views.CenterPointsUpdateRetriveDeleteSet.as_view(), name="center_points-update-delete-retrive"),
