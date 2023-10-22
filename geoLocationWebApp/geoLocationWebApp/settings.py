@@ -24,12 +24,16 @@ SECRET_KEY = 'django-insecure-$-w!m*hdqwz-!it8e_q%0-@7_(d@)f7+ivekb+%!_0t$k@&xh2
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# DEBUG = False
 
-ALLOWED_HOSTS = []
-
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    '*',
+]
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,6 +41,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # ^ GeoGIS contrib dependency
+    'django.contrib.gis',
+
+    # ^ 3rd Party Dependencies - Rest Framework (DRF),
+    'rest_framework',
+    'rest_framework_gis',
+
+    # ^ Custom Apps
+    'mainApp',
 ]
 
 MIDDLEWARE = [
@@ -73,13 +87,30 @@ WSGI_APPLICATION = 'geoLocationWebApp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# # & For SQLite Connection
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# & For PostgreSql Connection
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.postgresql', # for postgreSql
+        "ENGINE": "django.contrib.gis.db.backends.postgis", # & PostGIS extends the capabilities of the PostgreSQL by adding support storing, indexing & querying geographic data.
+        # & For downloading postgis, 1st install postgresql then go to stack builder application that comes with postgresql for adding extension, after opening it, select spatial data and then postgis there, wolla!
+        'NAME': 'GeoDjangoDB',  # * Enter DB Name here that is used in PostgreSQL
+        'USER': 'postgres',  # & Enter Username here that is used in PostgreSQL
+        'PASSWORD': '1234',  # & Enter Password here that is used in PostgreSQL
+        'HOST': 'localhost',  # & Enter Host (localhost) here that is used in PostgreSQL, generall postgresql works on 5432 port by default
+        'PORT': '5432',
     }
 }
 
+# ^ FOR GEODJANGO
+POSTGIS_VERSION = (2, 4, 3)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -114,10 +145,12 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-
 STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# & Enter your gdal library dll absolute path, else error will come that whether gdal is installed or not 
+GDAL_LIBRARY_PATH = r'C:\OSGeo4W\bin\gdal307.dll'

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found</title>
+    <style>
+        /* Your custom CSS styles go here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            height: 100vh;
+            width: 100vw;
+        }
+        .container {
+            text-align: center;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        h1 {
+            font-size: 48px;
+            color: #ff5733;
+        }
+        h2 {
+            font-size: 18px;
+        }
+        p {
+            font-size: 18px;
+            color: #555;
+            border: 1px solid #ff5733;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div>
+            {% if "err" %}
+                <h1>{{ err }}</h1>
+            {% endif %}
+            <a href="/" style="text-decoration: none; color: #ff5733;">Go to Homepage</a>
+            <!-- uncomment below to see the exception -->
+            <!-- {% if "exception" %}
+                <h2>Exception: {{ exception }}</h2>
+            {% endif %} -->
+        </div>
+    </div>
+</body>
+</html>

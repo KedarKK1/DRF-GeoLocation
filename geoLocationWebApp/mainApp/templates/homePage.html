@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRF-Geolocation using Leaflet & </title>
+    <!-- leaflet CDN Here below -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- leaflet CDN Ends Here -->
+
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            height: 100vh;
+            width: 100vw;
+        }
+        #map { height: 100%; }
+    </style>
+</head>
+<body>
+
+
+    <div id="map"></div>
+
+    <script type="text/javascript">
+        
+        // For USA's map -> first two are coordinates of usa, and last argument is zoom, 1_. means entire world map in 1 page, 4 means zoom 4x
+        var map = L.map('map').setView([37.0902, -95.7129], 4);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+        
+        /*
+        // San Francisco, California
+        L.marker([37.7749, -122.4194]).addTo(map)
+        .bindPopup('San Francisco, California! A pretty CSS popup.<br> Easily customizable.')
+        .openPopup();
+
+        // LA
+        L.marker([  ]).addTo(map)
+        .bindPopup('LA! A pretty CSS popup.<br> Easily customizable.')
+        .openPopup();
+
+        // Boston
+        L.marker([42.75027, -71.827489999999997]).addTo(map)
+        .bindPopup('Boston! A pretty CSS popup.<br> Easily customizable.')
+        .openPopup();
+
+        // Honolulu
+        L.marker([22.197500000000002, -159.42099999999999]).addTo(map)
+        .bindPopup('Honolulu')
+        .openPopup();
+
+        // Seattle, Washington:
+        L.marker([47.6062, -122.3321]).addTo(map)
+        .bindPopup('Seattle, Washington:')
+        .openPopup();
+
+        // NYC:
+        L.marker([40.7128, -74.0060]).addTo(map)
+        .bindPopup('NYC:')
+        .openPopup();
+
+        // Miami, Florida
+        L.marker([25.7617, -80.1918]).addTo(map)
+        .bindPopup('Miami, Florida')
+        .openPopup();
+
+        // Chicago, Illinois
+        L.marker([41.8781, -87.6298]).addTo(map)
+        .bindPopup('Chicago, Illinois')
+        .openPopup();
+
+        // Dallas, Texas
+        L.marker([32.7767, -96.7970]).addTo(map)
+        .bindPopup('Dallas, Texas')
+        .openPopup();
+
+        // Washington, D.C
+        L.marker([38.8951, -77.0369]).addTo(map)
+        .bindPopup('Washington, D.C')
+        .openPopup();
+        
+        */
+
+        // Make an API request to fetch data and create markers
+        fetch('/crud/')
+        .then(response => response.json())
+        .then(data => {
+            console.log("data ", data)
+            if(data && data.features.length > 0){
+                data.features.forEach(item => {
+                console.log("items ", item)
+                var marker = L.marker(item.geometry.coordinates)
+                    .addTo(map)
+                    .bindPopup(item.properties.name + '<br />' +'Temperature: ' + item.properties.temprature + '°F, Humidity(Relative): ' + item.properties.humidity + '%')
+                    .openPopup();
+                });
+            }
+        });
+
+
+        /* custom marker =>
+            var greenIcon = L.icon({
+            // iconUrl: 'leaf-green.png',
+            iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/c/c9/Font_Awesome_5_solid_map-marker-alt.svg',
+            shadowUrl: 'leaf-shadow.png',
+        
+            iconSize:     [38, 95], // size of the icon
+            shadowSize:   [50, 64], // size of the shadow
+            iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+            shadowAnchor: [4, 62],  // the same for the shadow
+            popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+        });
+        L.marker([51.5, -0.09], {icon: greenIcon}).addTo(map);
+        L.marker([51.3, -0.09], {icon: greenIcon}).addTo(map);
+        */
+
+    </script>
+</body>
+</html>
